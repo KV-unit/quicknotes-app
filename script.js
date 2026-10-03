@@ -27,17 +27,17 @@ function render(list = notes) {
     // Rebuild the list by looping over the provided list (either full notes or filtered notes)
     list.forEach(note => {
         const li = document.createElement('li');
-        li.className = `category-${note.category}`;
+        li.className = category-${note.category};
 
         const textContainer = document.createElement('div');
-        
+
         const textNode = document.createElement('p');
         textNode.textContent = note.text; 
-        
+
         const metaNode = document.createElement('small');
         const categoryLabel = note.category.charAt(0).toUpperCase() + note.category.slice(1);
-        metaNode.textContent = `${categoryLabel} • ${note.createdAt}`;
-        
+        metaNode.textContent = ${categoryLabel} • ${note.createdAt};
+
         textContainer.appendChild(textNode);
         textContainer.appendChild(metaNode);
 
@@ -49,11 +49,11 @@ function render(list = notes) {
         deleteBtn.addEventListener('click', () => {
             // 1. Remove this specific note from the master notes array
             notes = notes.filter(n => n.id !== note.id);
-            
+
             // 2. Recompute the filtered list based on the active search term
             const searchTerm = searchInput.value.toLowerCase();
             const filtered = notes.filter(n => n.text.toLowerCase().includes(searchTerm));
-            
+
             // 3. Re-render using the filtered list (if search is empty, this naturally shows all notes)
             render(filtered);
         });
@@ -78,7 +78,7 @@ function render(list = notes) {
     } else if (notes.length === 1) {
         noteCount.textContent = "You have 1 note.";
     } else {
-        noteCount.textContent = `You have ${notes.length} notes.`;
+        noteCount.textContent = You have ${notes.length} notes.;
     }
 
     // Save the current state of the notes array to LocalStorage
@@ -118,22 +118,22 @@ form.addEventListener('submit', (event) => {
 
     notes.push(newNote);
     noteInput.value = '';
-    
+
     // Clear search input so the new note is immediately visible
     searchInput.value = '';
-    
+
     render();
 });
 
 // Search Input Listener (Filter notes)
 searchInput.addEventListener('input', (event) => {
     const searchTerm = event.target.value.toLowerCase();
-    
+
     // Filter the master notes array without modifying it
     const filteredNotes = notes.filter(note => 
         note.text.toLowerCase().includes(searchTerm)
     );
-    
+
     // Render only the filtered notes
     render(filteredNotes);
 });

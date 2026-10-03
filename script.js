@@ -6,6 +6,7 @@ const errorMessage = document.querySelector('#error-message');
 const searchInput = document.querySelector('#search-input');
 const noteCount = document.querySelector('#note-count');
 const notesList = document.querySelector('#notes-list');
+const clearAllBtn = document.querySelector('#clear-all-btn'); // NEW: Selected Clear All button
 
 // --- 2. Initialize notes (Load from LocalStorage or start empty) ---
 let notes = [];
@@ -24,20 +25,20 @@ function render(list = notes) {
     // Clear the list first
     notesList.innerHTML = '';
 
-    // Rebuild the list by looping over the provided list (either full notes or filtered notes)
+    // Rebuild the list by looping over the provided list
     list.forEach(note => {
         const li = document.createElement('li');
-        li.className = category-${note.category};
+        li.className = `category-${note.category}`;
 
         const textContainer = document.createElement('div');
-
+        
         const textNode = document.createElement('p');
         textNode.textContent = note.text; 
-
+        
         const metaNode = document.createElement('small');
         const categoryLabel = note.category.charAt(0).toUpperCase() + note.category.slice(1);
-        metaNode.textContent = ${categoryLabel} • ${note.createdAt};
-
+        metaNode.textContent = `${categoryLabel} • ${note.createdAt}`;
+        
         textContainer.appendChild(textNode);
         textContainer.appendChild(metaNode);
 
@@ -45,16 +46,13 @@ function render(list = notes) {
         deleteBtn.textContent = 'Delete';
         deleteBtn.className = 'delete-btn';
 
-        // --- FIXED: Delete Button Event Listener ---
+        // Delete Button Event Listener
         deleteBtn.addEventListener('click', () => {
-            // 1. Remove this specific note from the master notes array
             notes = notes.filter(n => n.id !== note.id);
-
-            // 2. Recompute the filtered list based on the active search term
+            
             const searchTerm = searchInput.value.toLowerCase();
             const filtered = notes.filter(n => n.text.toLowerCase().includes(searchTerm));
-
-            // 3. Re-render using the filtered list (if search is empty, this naturally shows all notes)
+            
             render(filtered);
         });
 
@@ -78,7 +76,7 @@ function render(list = notes) {
     } else if (notes.length === 1) {
         noteCount.textContent = "You have 1 note.";
     } else {
-        noteCount.textContent = You have ${notes.length} notes.;
+        noteCount.textContent = `You have ${notes.length} notes.`;
     }
 
     // Save the current state of the notes array to LocalStorage
@@ -118,24 +116,35 @@ form.addEventListener('submit', (event) => {
 
     notes.push(newNote);
     noteInput.value = '';
-
-    // Clear search input so the new note is immediately visible
-    searchInput.value = '';
-
+    searchInput.value = ''; // Clear search so new note is immediately visible
+    
     render();
 });
 
 // Search Input Listener (Filter notes)
 searchInput.addEventListener('input', (event) => {
     const searchTerm = event.target.value.toLowerCase();
-
-    // Filter the master notes array without modifying it
     const filteredNotes = notes.filter(note => 
         note.text.toLowerCase().includes(searchTerm)
     );
-
-    // Render only the filtered notes
     render(filteredNotes);
+});
+
+// --- NEW: Clear All Button Listener ---
+clearAllBtn.addEventListener('click', () => {
+    const confirmed = confirm("Delete all notes?");
+    
+    if (confirmed) {
+        // 1. Empty out the notes array
+        notes = [];
+        
+        // 2. Empty out the search box's value
+        searchInput.value = '';
+        
+        // 3. Call render() to update the UI and save to localStorage
+        render();
+    }
+    // If false, the function simply ends and nothing happens
 });
 
 // --- 5. Initial Render ---

@@ -1,0 +1,171 @@
+/* --- 1. Base Reset & Global Styles --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #f4f7f6; /* Light, soft background for the page */
+    color: #333333;
+    line-height: 1.6;
+    padding: 1rem;
+}
+
+header, main, footer {
+    width: 100%;
+}
+
+/* --- 2. Layout Centering --- */
+main {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Space between the two sections */
+}
+
+header, footer {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+footer {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* --- 3. Section Styling (White Cards) --- */
+#add-note-section, 
+#notes-section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    color: #222;
+}
+
+/* --- 4. Form Layout --- */
+#note-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#note-input {
+    flex-grow: 1; /* Takes up remaining space */
+}
+
+input, select, button {
+    padding: 0.6rem 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* --- 5. Button Styles --- */
+button {
+    background-color: #3498db; /* Primary blue */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+/* --- 6. Note List & Cards (FIXED USING OPTION 2) --- */
+#notes-list {
+    list-style: none;
+    margin-top: 1rem;
+    /* Removed display: flex, flex-direction, and gap to rely on margin */
+}
+
+/* Styling for the <li> elements created in JS */
+#notes-list li {
+    padding: 1rem;
+    /* REMOVED: border: 1px solid #e0e0e0; */
+    
+    /* NEW: Split borders so we don't overwrite border-left */
+    border-top: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    
+    border-radius: 6px;
+    margin-bottom: 10px; /* Changed from margin: 0 to satisfy card spacing */
+    background-color: #fafafa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Remove the margin from the last card so it doesn't add extra space at the bottom */
+#notes-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* --- 7. Category Classes (Border Left Colors) --- */
+.category-personal {
+    border-left: 5px solid #1abc9c; /* Teal */
+}
+
+.category-work {
+    border-left: 5px solid #c0392b; /* Dark Red */
+}
+
+.category-study {
+    border-left: 5px solid #2980b9; /* Blue */
+}
+
+/* --- 8. Error Message Styling --- */
+#error-message {
+    color: #e74c3c; /* Red */
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    min-height: 1.2rem; /* Prevents layout jump when message appears */
+}
+
+/* --- 9. Search & Count Styling --- */
+#search-input {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+#note-count {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 0.5rem;
+}
+
+/* --- 10. Media Query (Mobile Stacking) --- */
+@media (max-width: 600px) {
+    #note-form {
+        flex-direction: column;
+        align-items: stretch; /* Makes inputs full width */
+    }
+    
+    #notes-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
